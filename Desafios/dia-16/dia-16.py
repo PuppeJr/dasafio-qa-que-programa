@@ -1,30 +1,42 @@
-# Dia 16: Jogo da Forca
+import random
 
-## Desafio
-Desenvolva uma versão simples do jogo da forca, onde o usuário tenta adivinhar uma palavra escolhida aleatoriamente pelo programa.
+def escolher_palavra():
+    palavras = ["python", "programacao", "desafio", "computador", "jogo", "forca"]
+    return random.choice(palavras)
 
-## Quais conhecimentos eu preciso adquirir para resolver este desafio?
-- Manipulação de Strings e Loops: Aprenda a manipular strings e criar loops para o processo de adivinhação.
-- Escolha Aleatória de Palavras: Use o módulo random para selecionar palavras de uma lista.
+def exibir_progresso(palavra, letras_adivinhadas):
+    return ''.join([letra if letra in letras_adivinhadas else '_' for letra in palavra])
 
-## Dica importante
-- Comece com uma lista de palavras que serão escolhidas aleatoriamente pelo programa.
-- Implemente um sistema que oculte a palavra e revele letras à medida que o usuário adivinha.
-- Defina um número de tentativas para o usuário e atualize-o à medida que eles fazem tentativas incorretas.
-- Crie um controle quando o usuário chutar uma letra que ele já chutou antes
+def jogo_da_forca():
+    palavra = escolher_palavra()
+    letras_adivinhadas = set()
+    tentativas_restantes = 6
+    
+    print("Bem-vindo ao jogo da forca!")
+    
+    while tentativas_restantes > 0:
+        print(f"\nPalavra: {exibir_progresso(palavra, letras_adivinhadas)}")
+        print(f"Tentativas restantes: {tentativas_restantes}")
+        
+        tentativa = input("Adivinhe uma letra: ").lower()
+        
+        if tentativa in letras_adivinhadas:
+            print("Você já adivinhou essa letra.")
+            continue
+        
+        letras_adivinhadas.add(tentativa)
+        
+        if tentativa in palavra:
+            print("Boa! Você adivinhou uma letra.")
+        else:
+            print("Errado! Essa letra não está na palavra.")
+            tentativas_restantes -= 1
+        
+        if all(letra in letras_adivinhadas for letra in palavra):
+            print(f"\nParabéns! Você adivinhou a palavra: {palavra}")
+            break
+    else:
+        print(f"\nVocê perdeu! A palavra era: {palavra}")
 
-## Testes
-
-Após criar o seu código, abra o terminal, vá até a pasta que está seu script, e execute o comando abaixo.
-
-```
-python nome-do-seu-script.py
-```
-
-Você pode então realizar alguns testes em seu script.
-
-## Concluiu?
-
-Ao finalizar o seu desafio, não esqueça de voltar lá no grupo, na mensagem que enviei de manhã com este link, e curtir com um ✅.
-
-Parabéns!!! Amanhã tem mais! 
+if __name__ == "__main__":
+    jogo_da_forca()
